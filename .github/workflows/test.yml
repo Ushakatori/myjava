@@ -21,18 +21,22 @@ jobs:
 
       - name: Set up Sonar Scanner
         run: |
-          curl -sSLo /tmp/sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-          unzip /tmp/sonar-scanner-cli.zip -d /tmp
-          export SONAR_SCANNER_HOME=/tmp/sonar-scanner-4.6.2.2472-linux
+          mkdir -p $RUNNER_TOOL_CACHE/sonar-scanner
+          curl -LsS -o /tmp/sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip -q /tmp/sonar-scanner-cli.zip -d $RUNNER_TOOL_CACHE/sonar-scanner
+          echo "::add-path::$RUNNER_TOOL_CACHE/sonar-scanner/sonar-scanner-4.6.2.2472-linux/bin"
         shell: bash
 
       - name: Run SonarQube Scanner
         run: |
-          $SONAR_SCANNER_HOME/conf/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectBaseDir=$(pwd) -Dsonar.config.location=sonar-scanner.properties
+          sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectBaseDir=$(pwd) -Dsonar.config.location=sonar-scanner.properties
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         working-directory: ./ # Set the working directory to the root of the repository
+
+
+
 
 
 
