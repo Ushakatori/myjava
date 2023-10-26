@@ -28,7 +28,7 @@ jobs:
 
       - name: Run SonarQube Scanner
         run: |
-          $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectBaseDir=$(pwd) -Dsonar.config.location=sonar-scanner.properties
+          $SONAR_SCANNER_HOME/conf/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectBaseDir=$(pwd) -Dsonar.config.location=sonar-scanner.properties
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
