@@ -1,0 +1,20 @@
+name: Check Sonar Scanner Installation Location
+
+on:
+  push:
+    branches:
+      - main # Adjust this to your main branch name
+
+jobs:
+  check-scanner-location:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Print Sonar Scanner Installation Location
+        run: |
+          # Assuming that Sonar Scanner is already installed, print the installation directory
+          echo "Sonar Scanner is installed in: $SONAR_SCANNER_HOME"
+        shell: bash
