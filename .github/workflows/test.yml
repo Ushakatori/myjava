@@ -13,8 +13,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run find Command for Sonar Scanner
+      - name: List Directories in PATH
         run: |
-          # Use the find command to locate the Sonar Scanner executable
-          find / -type f -name sonar-scanner 2>/dev/null
+          # List the directories in the PATH environment variable
+          echo "$PATH" | tr ':' '\n'
         shell: bash
+
