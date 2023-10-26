@@ -3,26 +3,33 @@ name: SonarQube Analysis
 on:
   push:
     branches:
-      - master
+      - master # Adjust this to your main branch name
 
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v2
         with:
-          java-version: 11
+          java-version: 11 # You can specify your desired Java version
 
-      - name: Run SonarScanner
+      - name: Build with Maven
+        run: |
+          mvn clean install
+        # Adjust this to your build process (e.g., Gradle, Ant)
+
+      - name: Run SonarQube Scanner
         run: |
           export SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.2.2472-linux
           $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL
-
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        # Adjust the path to your Sonar Scanner installation
+
+
