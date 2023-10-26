@@ -24,6 +24,6 @@ jobs:
           # Set the path to your SonarScanner installation
     
           
-          $SONAR_SCANNER_HOME/bin/sonar-scanner.properties -Dsonar.projectKey=myjava -Dsonar.sources=src -Dsonar.login=092fdf9ab988219185d967ff9ac5fca696730695 -Dsonar.host.url=http://10.10.30.206:9000
+          $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=myjava -Dsonar.sources=src -Dsonar.login=092fdf9ab988219185d967ff9ac5fca696730695 -Dsonar.host.url=http://10.10.30.206:9000
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
