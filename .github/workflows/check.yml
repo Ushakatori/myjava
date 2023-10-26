@@ -1,0 +1,6 @@
+- name: Debug Environment
+  run: |
+    echo "PATH: $PATH"
+    echo "SONAR_SCANNER_HOME: $SONAR_SCANNER_HOME"
+    ls -l $SONAR_SCANNER_HOME/bin
+  shell: bash
