@@ -32,7 +32,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        working-directory: ./ # Set the working directory to the root of the repository
+          working-directory: ./ # Set the working directory to the root of the repository
 
 
 
