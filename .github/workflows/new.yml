@@ -16,5 +16,10 @@ jobs:
     - name: Display Sonar Scanner Path
       run: |
         echo "Sonar Scanner Path: $SONAR_SCANNER_HOME/bin/sonar-scanner"
+        - name: Set up Sonar Scanner
+          export SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.2.2472-linux
+  shell: bash
+
+        
       env:
         SONAR_SCANNER_HOME: ${{ env.SONAR_SCANNER_HOME }}
