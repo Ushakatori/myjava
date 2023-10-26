@@ -20,11 +20,9 @@ jobs:
 
       - name: Run SonarScanner
         run: |
-          SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.2.2472-linux
-          # Set the path to your SonarScanner installation
-    
-          
-          -Dsonar.config.location=$SONAR_SCANNER_HOME/conf/sonar-scanner.properties
-           -Dsonar.projectKey=myjava -Dsonar.sources=src -Dsonar.login=092fdf9ab988219185d967ff9ac5fca696730695 -Dsonar.host.url=http://10.10.30.206:9000
+          export SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.2.2472-linux
+          $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL
+
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
