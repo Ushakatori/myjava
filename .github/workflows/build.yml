@@ -33,7 +33,7 @@ jobs:
       - name: Analyze Code with Sonar Scanner
         run: |
           # Run Sonar Scanner to analyze Java code
-          $SONAR_SCANNER_HOME/sonar-scanner 
+          $SONAR_SCANNER_HOME/conf/sonar-scanner 
             -Dsonar.projectKey=myjava \
             -Dsonar.sources=src \
             -Dsonar.host.url=http://10.10.30.206:9000
