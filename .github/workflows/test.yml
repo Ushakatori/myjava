@@ -13,8 +13,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run whereis Command for Sonar Scanner
+      - name: Run find Command for Sonar Scanner
         run: |
-          # Use the whereis command to find the location of the Sonar Scanner
-          whereis sonar-scanner
+          # Use the find command to locate the Sonar Scanner executable
+          find / -type f -name sonar-scanner 2>/dev/null
         shell: bash
