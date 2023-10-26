@@ -1,0 +1,20 @@
+name: Find Sonar Scanner Location
+
+on:
+  push:
+    branches:
+      - master # Adjust this to your main branch name
+
+jobs:
+  find-scanner-location:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Run whereis Command for Sonar Scanner
+        run: |
+          # Use the whereis command to find the location of the Sonar Scanner
+          whereis sonar-scanner
+        shell: bash
