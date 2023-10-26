@@ -18,11 +18,17 @@ jobs:
         with:
           java-version: 11 # You can specify your desired Java version 
           distribution: 'adopt'
-          
+      - name: Set up Sonar Scanner
+         run:|
+          curl -sSLo /tmp/sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip /tmp/sonar-scanner-cli.zip -d /tmp
+          export SONAR_SCANNER_HOME=/tmp/sonar-scanner-4.6.2.2472-linux
+          shell:bash
+
       - name: Run SonarQube Scanner
-        run: |
-          export SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.2.2472-linux
-          $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.sources=.
+         run:|
+          $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.projectBaseDir=$(pwd) -Dsonar.config.location=sonar-scanner.properties
+    
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
