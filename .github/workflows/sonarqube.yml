@@ -18,23 +18,15 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-
-    - name: Set up SonarScanner
-      run: |
-        # Set the Sonar Scanner path
-        SONAR_SCANNER_PATH=/opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux
-        # Add the Sonar Scanner to the PATH
-        echo "export PATH=\$PATH:$SONAR_SCANNER_PATH/bin" >> $GITHUB_ENV
-      if: success()
-      
     - name: SonarQube Scan
       run: |
-        # Run Sonar Scanner with the correct path
-          -Dsonar.projectKey=myjava \
-          -Dsonar.sources=./  # Set this path to your Java source code
-          -Dsonar.host.url=http://10.10.30.206:9000
+        sonar-scanner \
+        -Dsonar.projectKey=your_project_key \
+        -Dsonar.sources=./  # Set this path to your Java source code
+        -Dsonar.host.url=http://10.10.30.206:9000
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Add your SonarQube authentication token as a secret
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
     - name: Check SonarQube Analysis Status
       run: |
