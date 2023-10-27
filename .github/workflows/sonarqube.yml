@@ -30,7 +30,6 @@ jobs:
     - name: SonarQube Scan
       run: |
         # Run Sonar Scanner with the correct path
-        /opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux/conf/sonar-scanner \
           -Dsonar.projectKey=myjava \
           -Dsonar.sources=./  # Set this path to your Java source code
           -Dsonar.host.url=http://10.10.30.206:9000
