@@ -13,8 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    
+    - name: Set Sonar Scanner Path
+      run: echo "export PATH="$PATH":"/opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_ENV
     - name: Check Sonar Scanner Version
       run: |
         # Check Sonar Scanner version
         sonar-scanner -v
       if: success()
+
