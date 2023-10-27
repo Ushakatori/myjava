@@ -20,10 +20,10 @@ jobs:
         distribution: 'adopt'
     - name: SonarQube Scan
       run: |
-        sonar-scanner \
-        -Dsonar.projectKey=your_project_key \
-        -Dsonar.sources=./  # Set this path to your Java source code
-        -Dsonar.host.url=http://10.10.30.206:9000
+        /opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner \
+         -Dsonar.projectKey=myjava\
+         -Dsonar.sources=./sample.java  # Set this path to your Java source code
+         -Dsonar.host.url=http://10.10.30.206:9000
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
