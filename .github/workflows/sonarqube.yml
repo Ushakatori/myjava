@@ -26,7 +26,11 @@ jobs:
         # Add the Sonar Scanner to the PATH
         echo "export PATH=\$PATH:$SONAR_SCANNER_PATH/bin" >> $GITHUB_ENV
       if: success()
-
+    - name: Debug Environment
+      run: |
+        env
+           which sonar-scanner
+      if: success()
     - name: SonarQube Scan
       run: |
         # Run Sonar Scanner with the correct path
