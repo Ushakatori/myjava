@@ -6,22 +6,15 @@ on:
       - master # Change this to your main branch
 
 jobs:
-  sonarqube:
+  check-sonar-scanner-version:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check Sonar Scanner Path
-      run: |
-        # Set the Sonar Scanner path
-        SONAR_SCANNER_PATH=/opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux
-        if [[ -x "$SONAR_SCANNER_PATH/bin/sonar-scanner" ]]; then
-          echo "Sonar Scanner found at $SONAR_SCANNER_PATH."
-        else
-          echo "Sonar Scanner not found at $SONAR_SCANNER_PATH."
-          echo "Adding Sonar Scanner to PATH..."
-          echo "export PATH=\$PATH:$SONAR_SCANNER_PATH/bin" >> $GITHUB_ENV
-          echo "Sonar Scanner added to PATH."
-        fi
-      if: always()
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    
+    - name: Check Sonar Scanner Version
+      run: |
+        # Check Sonar Scanner version
+        sonar-scanner -v
+      if: success()
