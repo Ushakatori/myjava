@@ -3,7 +3,7 @@ name: SonarQube Analysis
 on:
   push:
     branches:
-      - master # Set the branch you want to trigger the workflow on
+      - master  # Change this to your main branch
 
 jobs:
   sonarqube:
@@ -16,21 +16,31 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: 11
-        distribution: 'adopt'# You can specify the Java version you need
+        java-version: '11'
+        distribution: 'adopt'
 
-    - name: Run SonarQube Scan
+    - name: Set up SonarScanner
       run: |
-        /opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux/bin \
-        -Dsonar.host.url=http://10.10.30.206:9000 \
-        -Dsonar.login=092fdf9ab988219185d967ff9ac5fca696730695 # Replace with your SonarQube token
+        # Set the Sonar Scanner path
+        SONAR_SCANNER_PATH=/opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux
+        # Add the Sonar Scanner to the PATH
+        echo "export PATH=\$PATH:$SONAR_SCANNER_PATH/bin" >> $GITHUB_ENV
+      if: success()
 
-    - name: Upload SonarQube Analysis
+    - name: SonarQube Scan
       run: |
-        curl -u $SONAR_TOKEN: -X POST \
-        "http://10.10.30.206:9000/api/ce/submit?projectKey=myjava&characteristic=branch:master" \
-         -H "Content-Type: application/x-www-form-urlencoded"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      # Add any necessary steps to upload the analysis results to your SonarQube server
+        # Run Sonar Scanner with the correct path
+        sonar-scanner \
+          -Dsonar.projectKey=myjava \
+          -Dsonar.sources=./  # Set this path to your Java source code
+          -Dsonar.host.url=http://10.10.30.206:9000
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Add your SonarQube authentication token as a secret
+
+    - name: Check SonarQube Analysis Status
+      run: |
+         curl -u $SONAR_TOKEN: -X POST "http://10.10.30.206:9000/api/qualitygates/project_status?projectKey=myjava" -o project_status.json
+
+    - name: Display SonarQube Analysis Status
+      run: cat project_status.json
 
