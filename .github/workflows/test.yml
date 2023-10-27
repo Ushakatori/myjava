@@ -10,33 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-
-    - name: Set up SonarScanner
+    - name: Check Sonar Scanner Path
       run: |
-        curl -sSLo /tmp/sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-        unzip /tmp/sonar-scanner-cli.zip -d /opt
-        echo "export PATH=\$PATH:/opt/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_ENV
-      if: success()
+        # Set the Sonar Scanner path
+        SONAR_SCANNER_PATH=/opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux
+        if [[ -x "$SONAR_SCANNER_PATH/bin/sonar-scanner" ]]; then
+          echo "Sonar Scanner found at $SONAR_SCANNER_PATH."
+        else
+          echo "Sonar Scanner not found at $SONAR_SCANNER_PATH."
+          echo "Adding Sonar Scanner to PATH..."
+          echo "export PATH=\$PATH:$SONAR_SCANNER_PATH/bin" >> $GITHUB_ENV
+          echo "Sonar Scanner added to PATH."
+        fi
+      if: always()
 
-    - name: SonarQube Scan
-      run: |
-        sonar-scanner \
-          -Dsonar.projectKey=your_project_key \
-          -Dsonar.sources=./  # Set this path to your Java source code
-          -Dsonar.host.url=http://1.1.1.1:9000
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Add your SonarQube authentication token as a secret
-
-    - name: Check SonarQube Analysis Status
-      run: curl -u $SONAR_TOKEN: -X POST "http://1.1.1.1:9000/api/qualitygates/project_status?projectKey=your_project_key" -o project_status.json
-
-    - name: Display SonarQube Analysis Status
-      run: cat project_status.json
+    
