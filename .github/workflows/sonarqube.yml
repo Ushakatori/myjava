@@ -33,7 +33,7 @@ jobs:
         SONAR_SCANNER_HOME: /opt/sonar-scanner/sonar-scanner-4.6.2.2472-linux
 
     - name: Upload SonarQube Analysis
-      uses: sonarsource/sonarcloud-github-action@latest
+      uses: sonarsource/sonarqube-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
